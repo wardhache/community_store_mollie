@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2013, Mollie B.V.
+ * Copyright (c) 2016, Mollie B.V.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,68 +28,36 @@
  * @author      Mollie B.V. <info@mollie.com>
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
+ *
+ * @method Mollie_API_Object_Profile_APIKey[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
+ * @method Mollie_API_Object_Profile_APIKey get($mode, array $filters = array())
  */
-class Mollie_API_Object_Organization
+class Mollie_API_Resource_Profiles_APIKeys extends Mollie_API_Resource_Base
 {
 	/**
-	 * Id of the organization.
-	 *
 	 * @var string
 	 */
-	public $id;
+	protected $resource_path = "profiles_apikeys";
 
 	/**
-	 * @var string
+	 * @return Mollie_API_Object_Profile_APIKey
 	 */
-	public $name;
+	protected function getResourceObject ()
+	{
+		return new Mollie_API_Object_Profile_APIKey;
+	}
 
-	/**
-	 * @var string
-	 */
-	public $email;
+    /**
+     * @param string $mode
+     *
+     * @return Mollie_API_Object_Profile_APIKey
+     */
+    public function reset ($mode)
+    {
+        /** @var Mollie_API_Object_Profile_APIKey $updated_api_key */
+        $updated_api_key = $this->rest_update($this->getResourcePath(), $mode, '');
 
-	/**
-	 * @var string
-	 */
-	public $address;
+        return $updated_api_key;
+    }
 
-	/**
-	 * @var string
-	 */
-	public $postalCode;
-
-	/**
-	 * @var string
-	 */
-	public $city;
-
-	/**
-	 * @var string
-	 */
-	public $country;
-
-	/**
-	 * @var string
-	 */
-	public $countryCode;
-
-	/**
-	 * @var string
-	 */
-	public $registrationType;
-
-	/**
-	 * @var string
-	 */
-	public $registrationNumber;
-
-	/**
-	 * @var string
-	 */
-	public $registrationDatetime;
-
-	/**
-	 * @var string
-	 */
-	public $verifiedDatetime;
 }

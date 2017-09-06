@@ -29,107 +29,45 @@
  * @copyright   Mollie B.V.
  * @link        https://www.mollie.com
  */
-class Mollie_API_Object_Payment_Refund
+class Mollie_API_Object_Profile_APIKey
 {
-	/**
-	 * The refund is queued until there is enough balance to process te refund. You can still cancel the refund.
-	 */
-	const STATUS_QUEUED    = 'queued';
+	const TEST_KEY = "test";
+	const LIVE_KEY = "live";
 
 	/**
-	 * The refund will be sent to the bank on the next business day. You can still cancel the refund.
-	 */
-	const STATUS_PENDING    = 'pending';
-
-	/**
-	 * The refund has been sent to the bank. The refund amount will be transferred to the consumer account as soon as possible.
-	 */
-	const STATUS_PROCESSING = 'processing';
-
-	/**
-	 * The refund amount has been transferred to the consumer.
-	 */
-	const STATUS_REFUNDED   = 'refunded';
-
-	/**
-	 * Id of the payment method.
+	 * The mode ('live' or 'test') functions as the ID of the API key.
 	 *
 	 * @var string
 	 */
 	public $id;
 
 	/**
-	 * The $amount that was refunded.
-	 *
-	 * @var float
-	 */
-	public $amount;
-
-	/**
-	 * The refund's description, if available.
-	 *
-	 * @var string|null
-	 */
-	public $description;
-
-	/**
-	 * The payment that was refunded.
-	 *
-	 * @var Mollie_API_Object_Payment
-	 */
-	public $payment;
-
-	/**
-	 * Date and time the payment was cancelled in ISO-8601 format.
-	 *
-	 * @var string|null
-	 */
-	public $refundedDatetime;
-
-	/**
-	 * The refund status
+	 * The API key (live_... or test_...)
 	 *
 	 * @var string
 	 */
-	public $status;
+	public $key;
 
 	/**
-	 * Is this refund queued?
+	 * The datetime at which the API key was created in ISO-8601 format.
 	 *
+	 * @var string
+	 */
+	public $createdDatetime;
+
+	/**
 	 * @return bool
 	 */
-	public function isQueued ()
+	public function isLiveKey ()
 	{
-		return $this->status == self::STATUS_QUEUED;
+		return $this->id == self::LIVE_KEY;
 	}
 
 	/**
-	 * Is this refund pending?
-	 *
 	 * @return bool
 	 */
-	public function isPending ()
+	public function isTestKey ()
 	{
-		return $this->status == self::STATUS_PENDING;
-	}
-
-	/**
-	 * Is this refund processing?
-	 *
-	 * @return bool
-	 */
-	public function isProcessing ()
-	{
-		return $this->status == self::STATUS_PROCESSING;
-	}
-
-	/**
-	 * Is this refund transferred to consumer?
-	 *
-	 * @return bool
-	 */
-	public function isTransferred ()
-	{
-		return $this->status == self::STATUS_REFUNDED;
+		return $this->id == self::TEST_KEY;
 	}
 }

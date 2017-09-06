@@ -27,6 +27,7 @@ class Paymollie extends DashboardPageController{
     $methods = $mollie->methods->all();
     if(!empty($methods)){
       $db = Database::connection();
+      $db->Execute('delete * from molStoreMethods');
       foreach($methods as $payMethod){
         $cData = array();
         $cData[] = $payMethod->id;
@@ -39,7 +40,7 @@ class Paymollie extends DashboardPageController{
           $iData[] = $payMethod->image->normal;
           $iData[] = $payMethod->amount->minimum;
           $iData[] = $payMethod->amount->maximum;
-          $db->Execute('insert into molStoreMethods (pMollieID, pTitle, pImage, pMinimum, pMaximum) values (?,?,?,?,?)', $iData);
+          $db->Execute('insert into molStoreMethods (pMollieID, pTitle, pImage, pMinimum, pMaximum) values (?,?,?,?,?,?)', $iData);
         }
       }
     }

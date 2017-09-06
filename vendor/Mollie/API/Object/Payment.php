@@ -258,7 +258,6 @@ class Mollie_API_Object_Payment
 	 */
 	public $links;
 
-
 	/**
 	 * Is this payment cancelled?
 	 *
@@ -269,7 +268,6 @@ class Mollie_API_Object_Payment
 		return $this->status == self::STATUS_CANCELLED;
 	}
 
-
 	/**
 	 * Is this payment expired?
 	 *
@@ -279,7 +277,6 @@ class Mollie_API_Object_Payment
 	{
 		return $this->status == self::STATUS_EXPIRED;
 	}
-
 
 	/**
 	 * Is this payment still open / ongoing?
@@ -312,6 +309,19 @@ class Mollie_API_Object_Payment
 	}
 
 	/**
+	 * Has the money been transferred to the bank account of the merchant?
+	 *
+	 * Note: When a payment is refunded or charged back, the status 'refunded'/'charged_back' will
+	 * overwrite the 'paidout' status.
+	 *
+	 * @return bool
+	 */
+	public function isPaidOut ()
+	{
+		return $this->status == self::STATUS_PAIDOUT;
+	}
+
+	/**
 	 * Is this payment (partially) refunded?
 	 *
 	 * @return bool
@@ -329,6 +339,48 @@ class Mollie_API_Object_Payment
 	public function isChargedBack ()
 	{
 		return $this->status == self::STATUS_CHARGED_BACK;
+	}
+
+	/**
+	 * Is this payment failing?
+	 *
+	 * @return bool
+	 */
+	public function isFailed ()
+	{
+		return $this->status == self::STATUS_FAILED;
+	}
+
+	/**
+	 * Check whether the 'recurringType' parameter has been defined for this payment.
+	 *
+	 * @return bool
+	 */
+	public function hasRecurringType ()
+	{
+		return $this->hasRecurringTypeFirst() || $this->hasRecurringTypeRecurring();
+	}
+
+	/**
+	 * Check whether 'recurringType' is set to 'first'. If a 'first' payment has been completed successfully, the
+	 * consumer's account may be charged automatically using recurring payments.
+	 *
+	 * @return bool
+	 */
+	public function hasRecurringTypeFirst ()
+	{
+		return $this->recurringType == self::RECURRINGTYPE_FIRST;
+	}
+
+	/**
+	 * Check whether 'recurringType' is set to 'recurring'. This type of payment is processed without involving
+	 * the consumer.
+	 *
+	 * @return bool
+	 */
+	public function hasRecurringTypeRecurring ()
+	{
+		return $this->recurringType == self::RECURRINGTYPE_RECURRING;
 	}
 
 	/**
@@ -374,7 +426,7 @@ class Mollie_API_Object_Payment
 			return floatval($this->amountRefunded);
 		}
 
-		return 0;
+		return 0.0;
 	}
 
 	/**
@@ -390,6 +442,6 @@ class Mollie_API_Object_Payment
 			return floatval($this->amountRemaining);
 		}
 
-		return 0;
+		return 0.0;
 	}
 }

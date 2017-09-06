@@ -31,6 +31,8 @@
  *
  * @method Mollie_API_Object_Customer_Subscription[]|Mollie_API_Object_List all($offset = 0, $limit = 0, array $filters = array())
  * @method Mollie_API_Object_Customer_Subscription get($subscription_id, array $filters = array())
+ * @method Mollie_API_Object_Customer_Subscription create(array $data = array(), array $filters = array())
+ * @method Mollie_API_Object_Customer_Subscription delete($subscription_id)
  */
 class Mollie_API_Resource_Customers_Subscriptions extends Mollie_API_Resource_Base
 {
@@ -45,5 +47,18 @@ class Mollie_API_Resource_Customers_Subscriptions extends Mollie_API_Resource_Ba
 	protected function getResourceObject ()
 	{
 		return new Mollie_API_Object_Customer_Subscription;
+	}
+
+	/**
+	 * Cancel the given Subscription. This is just an alias of the 'delete' method.
+	 *
+	 * @param string $subscription_id
+	 *
+	 * @return Mollie_API_Object_Customer_Subscription
+	 * @throws Mollie_API_Exception
+	 */
+	public function cancel ($subscription_id)
+	{
+		return $this->delete($subscription_id);
 	}
 }

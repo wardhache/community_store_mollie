@@ -32,7 +32,7 @@
           $pkg = Package::getByHandle("community_store_mollie");
           $pkgconfig = $pkg->getConfig();
           $this->set('apiKey',$pkgconfig->get('storemollie.apikey'));
-          $this->set('orderDeleteOnCancel',$pkgconfig->get('storemollie.orderDeleteOnCancel'));
+          $this->set('orderStatusOnCancel',$pkgconfig->get('storemollie.orderStatusOnCancel'));
           $this->set('form',Core::make("helper/form"));
       }
 
@@ -40,7 +40,7 @@
       {
           $pkg = Package::getByHandle("community_store_mollie");
           $pkg->getConfig()->save('storemollie.apikey',$data['apiKey']);
-          $pkg->getConfig()->save('storemollie.orderDeleteOnCancel',$data['orderDeleteOnCancel']);
+          $pkg->getConfig()->save('storemollie.orderStatusOnCancel',$data['orderStatusOnCancel']);
       }
       public function validate($data,$e)
       {
@@ -169,6 +169,8 @@
 
           if ($payment->isPaid()){
             //Payment succesfull
+            $order->completeOrder($transactionDetails['pID'], false);
+            $order->completePayment(false);
             // unset the shipping type, as next order might be unshippable and clearing cart
             StoreDiscountCode::clearCartCode();
             \Session::set('community_store.smID', '');
@@ -197,15 +199,15 @@
             die;
           }else if (!$payment->isOpen()){
             //No cancelled status and deleting an order is truly deleting instead of an active field.
-            $deleteOrder = $pkgconfig->get('storemollie.orderDeleteOnCancel');
-            $user = new User();
-            if($deleteOrder == 1){
-              $order->setCancelled(new \DateTime());
-              $order->setCancelledByUID($user->getUserID());
+
+            $cancelOrderStatus = $pkgconfig->get('storemollie.orderStatusOnCancel');
+            if(!empty($cancelOrderStatus)){
+              //set cancelled order status
+              $order->updateStatus($cancelOrderStatus);
             }
             $order->setExternalPaymentRequested(null);
             $order->save();
-            //redirecting to cancelled single page
+            //redirecting to cart single page
             $response = \Redirect::to('/cart');
             $response->send();
             die;

@@ -131,6 +131,63 @@ abstract class Mollie_API_Resource_Base
 	}
 
 	/**
+	 * Sends a DELETE request to a single Molle API object.
+	 *
+	 * @param string $rest_resource
+	 * @param string $id
+	 *
+	 * @return object
+	 * @throws Mollie_API_Exception
+	 */
+	private function rest_delete ($rest_resource, $id)
+	{
+		if (empty($id))
+		{
+			throw new Mollie_API_Exception("Invalid resource id.");
+		}
+
+		$id     = urlencode($id);
+		$result = $this->performApiCall(
+			self::REST_DELETE,
+			"{$rest_resource}/{$id}"
+		);
+
+		if ($result === NULL)
+		{
+			return NULL;
+		}
+
+		return $this->copy($result, $this->getResourceObject());
+	}
+
+	/**
+	 * Sends a POST request to a single Molle API object to update it.
+	 *
+	 * @param string $rest_resource
+	 * @param string $id
+	 * @param string $body
+	 *
+	 * @return object
+	 * @throws Mollie_API_Exception
+	 */
+	protected function rest_update ($rest_resource, $id, $body)
+	{
+		if (empty($id))
+		{
+			throw new Mollie_API_Exception("Invalid resource id.");
+		}
+
+		$id     = urlencode($id);
+		$result = $this->performApiCall(
+			self::REST_UPDATE,
+			"{$rest_resource}/{$id}",
+			$body
+		);
+
+		return $this->copy($result, $this->getResourceObject());
+	}
+
+	/**
 	 * Get a collection of objects from the REST API.
 	 *
 	 * @param $rest_resource
@@ -189,6 +246,7 @@ abstract class Mollie_API_Resource_Base
 	 *
 	 * @param array $data An array containing details on the resource. Fields supported depend on the resource created.
 	 * @param array $filters
+	 *
 	 * @return object
 	 * @throws Mollie_API_Exception
 	 */
@@ -221,12 +279,28 @@ abstract class Mollie_API_Resource_Base
 	 *
 	 * @param string $resource_id
 	 * @param array  $filters
+	 *
 	 * @return object
 	 * @throws Mollie_API_Exception
 	 */
 	public function get ($resource_id, array $filters = array())
 	{
 		return $this->rest_read($this->getResourcePath(), $resource_id, $filters);
+	}
+
+	/**
+	 * Delete a single resource from Mollie.
+	 *
+	 * Will throw a Mollie_API_Exception if the resource cannot be found.
+	 *
+	 * @param string $resource_id
+	 *
+	 * @return object
+	 * @throws Mollie_API_Exception
+	 */
+	public function delete ($resource_id)
+	{
+		return $this->rest_delete($this->getResourcePath(), $resource_id);
 	}
 
 	/**
@@ -256,6 +330,11 @@ abstract class Mollie_API_Resource_Base
 	protected function performApiCall($http_method, $api_method, $http_body = NULL)
 	{
 		$body = $this->api->performHttpCall($http_method, $api_method, $http_body);
+
+		if ($this->api->getLastHttpResponseStatusCode() == Mollie_API_Client::HTTP_STATUS_NO_CONTENT)
+		{
+			return NULL;
+		}
 
 		if (empty($body))
 		{

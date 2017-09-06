@@ -46,12 +46,11 @@ class controller extends Package{
         $uData['cName'] = "Mollie Payment";
         $sp->update($uData);
       }
-      /*
-      $sp = Page::getByPath('/checkout/cancelled');
-      if ($sp->isError() || (!is_object($sp))) {
-          $sp = SinglePage::add('/checkout/cancelled', $pkg);
+
+      $orderStatus = StoreOrderStatus::getByHandle('nodelivery');
+      if(is_object($orderStatus)){
+        $pkg->getConfig()->save('storemollie.orderStatusOnCancel','nodelivery');
       }
-      */
     }
   }
 
@@ -67,12 +66,6 @@ class controller extends Package{
       $uData['cName'] = "Mollie Payment";
       $sp->update($uData);
     }
-    /*
-    $sp = Page::getByPath('/checkout/cancelled');
-    if ($sp->isError() || (!is_object($sp))) {
-        $sp = SinglePage::add('/checkout/cancelled', $pkg);
-    }
-    */
   }
 
   public function uninstall(){
