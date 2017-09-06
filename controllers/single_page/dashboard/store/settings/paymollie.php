@@ -40,7 +40,7 @@ class Paymollie extends DashboardPageController{
           $iData[] = $payMethod->image->normal;
           $iData[] = $payMethod->amount->minimum;
           $iData[] = $payMethod->amount->maximum;
-          $db->Execute('insert into molStoreMethods (pMollieID, pTitle, pImage, pMinimum, pMaximum) values (?,?,?,?,?,?)', $iData);
+          $db->Execute('insert into molStoreMethods (pMollieID, pTitle, pImage, pMinimum, pMaximum) values (?,?,?,?,?)', $iData);
         }
       }
     }
