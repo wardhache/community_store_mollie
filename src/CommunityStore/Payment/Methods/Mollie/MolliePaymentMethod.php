@@ -222,6 +222,10 @@
         return true;
       }
 
+      public function markPaid() {
+          return false;
+      }
+
       public function submitPayment(){
         //nothing special
         return array('error'=>0, 'transactionReference'=>'');
