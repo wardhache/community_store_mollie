@@ -36,7 +36,7 @@
           $this->set('form',Core::make("helper/form"));
       }
 
-      public function save($data)
+      public function save(array $data = [])
       {
           $pkg = Package::getByHandle("community_store_mollie");
           $pkg->getConfig()->save('storemollie.apikey',$data['apiKey']);
