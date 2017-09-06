@@ -25,11 +25,11 @@ class controller extends Package{
   protected $pkgVersion = '0.0.8';
 
   public function getPackageDescription(){
-    return t("Adds the mollie payment gateway to C5 community store.");
+    return t("Mollie Payment Method for Community Store");
   }
 
   public function getPackageName(){
-    return t("Mollie payment gateway");
+    return t("Mollie payment method");
   }
 
   public function on_start(){
