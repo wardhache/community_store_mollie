@@ -88,7 +88,7 @@
 
         $checkoutPage = Page::getByPath('checkout');
         $nh = Loader::helper('navigation');
-        $cpl = BASE_URL.'/checkout';
+        $cpl = BASE_URL.'/index.php/checkout';
 
         $payment = $mollie->payments->create(
 		        array(
