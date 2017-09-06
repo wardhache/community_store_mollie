@@ -184,8 +184,6 @@
             //The order has not been cancelled, but hasn't been paid yet usually on bank transfer.
             //Completing the order by setting transactionReference + updating status + emptying the cart + redirecting.
             //Mollie does not call the webhook when the status of a payment is not changed.
-            $order->completeOrder($transactionDetails['pID'], false);
-
             StoreDiscountCode::clearCartCode();
             \Session::set('community_store.smID', '');
             StoreCart::clear();
