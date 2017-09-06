@@ -1,0 +1,144 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Store Mollie\n"
+"POT-Creation-Date: 2016-09-13 09:48+0100\n"
+"PO-Revision-Date: 2016-11-08 08:57+0100\n"
+"Last-Translator: \n"
+"Language-Team: ABC IT & Web Solutions <info@mijnwebsitebouwen.be>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-Basepath: C:\\Users\\Jos\\Desktop\\backups\\packages\\\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: community_store_mollie\n"
+
+#: community_store_mollie/controller.php:19
+msgid "Adds the mollie payment gateway to C5 vivid ecommerce."
+msgstr "Voegt de mollie betaalmethode to aan vivid ecommerce."
+
+#: community_store_mollie/controller.php:23
+msgid "Mollie payment gateway"
+msgstr "Mollie betaalmethode"
+
+#: community_store_mollie/controller.php:34
+msgid "This package requires that Vivid Store be installed"
+msgstr "Vivid store moet geïsntalleerd zijn om deze module te gebruiken."
+
+#: community_store_mollie/elements/mollie/checkout_form.php:2
+#: community_store_mollie/elements/mollie/dashboard_form.php:2
+#: community_store_mollie/single_pages/checkout/cancelled.php:1
+#: community_store_mollie/single_pages/dashboard/store/settings/paymollie.php:2
+msgid "Access Denied."
+msgstr "Toegang Geweigerd."
+
+#: community_store_mollie/elements/mollie/checkout_form.php:8
+msgid "Click on \"Complete Order\" to start the payment process.<br/>"
+msgstr ""
+"Klik op  \"Bestelling afronden\" om de online betaling te starten.<br/>"
+
+#: community_store_mollie/elements/mollie/checkout_form.php:9
+msgid ""
+"In the next screen you will be able to choose between these payment methods:"
+"<br/>"
+msgstr ""
+"In het volgende scherm, zal je kunnen kiezen tussen volgende betaalwijzen:"
+"<br/>"
+
+#: community_store_mollie/elements/mollie/checkout_form.php:15
+msgid "Error: No payment options available. Please contact the website owner."
+msgstr ""
+"Fout: Geen betaalmogelijkheden beschikbaar. Contacteer de website beheerder."
+
+#: community_store_mollie/elements/mollie/dashboard_form.php:9
+msgid "Enter your API Key"
+msgstr "Voeg uw API sleutel toe"
+
+#: community_store_mollie/elements/mollie/dashboard_form.php:13
+msgid ""
+"After adding the API key, go to the mollie settings page below the store "
+"settings to scan for available payment options."
+msgstr ""
+"Na het toevoegen van de API key, ga naar de mollie settings onder de store "
+"settings om te scannen naar beschikbare betaalmethodes."
+
+#: community_store_mollie/elements/mollie/dashboard_form.php:21
+msgid ""
+"Most Mollie methods are direct online payment. The status after an order "
+"should be \"Processing\"."
+msgstr ""
+"De meeste Mollie methodes worden direct betaald. De status na een bestelling "
+"zou \"Processing\" moeten zijn."
+
+#: community_store_mollie/elements/mollie/dashboard_form.php:23
+msgid ""
+"However, Bank transfer is not paid immediately. The status above will be set "
+"on Bank transfer payments."
+msgstr ""
+"Een bank overschrijving wordt niet direct betaald. De status hierboven zal "
+"geplaatst worden op bestallingen met een bank overschrijving."
+
+#: community_store_mollie/elements/mollie/dashboard_form.php:32
+msgid "Important: "
+msgstr "Belangrijk:"
+
+#: community_store_mollie/elements/mollie/dashboard_form.php:34
+msgid ""
+"Normally a cancelled order will remain on the standard \"Incomplete\" "
+"status. A deleted order can not be retrieved so carefull with enabling this "
+"feature."
+msgstr ""
+"Een bestelling die geannuleerd is, zal normaal gezien op de standaard "
+"\"Incomplete\" status komen te staan. Een bestelling die verwijderd wordt, "
+"kan niet meer terug gehaald worden. Pas dus op met de instelling hierboven "
+"te activeren."
+
+#: community_store_mollie/single_pages/checkout/cancelled.php:2
+msgid "The order was cancelled."
+msgstr "De bestelling was geannuleerd."
+
+#: community_store_mollie/single_pages/checkout/cancelled.php:4
+msgid "Your cart still holds your products, so you can place a new order."
+msgstr ""
+"De producten zitten nog steeds in uw winkelwagen. U kan een nieuwe "
+"bestelling plaatsen."
+
+#: community_store_mollie/single_pages/dashboard/store/settings/paymollie.php:7
+msgid "Please set the API Key for mollie in the settings."
+msgstr "De API key is verplicht voor mollie in de instellingen."
+
+#: community_store_mollie/single_pages/dashboard/store/settings/paymollie.php:13
+msgid "Current mollie payment methods:"
+msgstr "Huidige mollie betaalmethodes:"
+
+#: community_store_mollie/single_pages/dashboard/store/settings/paymollie.php:21
+msgid "Name"
+msgstr "Naam"
+
+#: community_store_mollie/single_pages/dashboard/store/settings/paymollie.php:23
+msgid "Minimum"
+msgstr "Minimum"
+
+#: community_store_mollie/single_pages/dashboard/store/settings/paymollie.php:25
+msgid "Maximum"
+msgstr "Maximum"
+
+#: community_store_mollie/single_pages/dashboard/store/settings/paymollie.php:47
+msgid "Rescan"
+msgstr "Scannen"
+
+#: community_store_mollie/single_pages/dashboard/store/settings/paymollie.php:51
+msgid ""
+"Login to your mollie account to enable or disable the options of payment. "
+"Afterwards, click the rescan button on this page to load the methods."
+msgstr ""
+"Log in op uw mollie account om de verschillende methodes aan of af te "
+"plaaten. Nadien klik je op de scannen knop om de geactiveerde methodes hier "
+"te tonen."
+
+#: community_store_mollie/src/CommunityStore/Payment/Methods/Mollie/MolliePaymentMethod.php:52
+msgid "API Key must be set"
+msgstr "API sleutel moet ingesteld zijn"
