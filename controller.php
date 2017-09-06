@@ -1,6 +1,15 @@
 <?php
 namespace Concrete\Package\CommunityStoreMollie;
 
+/**
+ * Community Store Mollie
+ *
+ * @author Jos De Berdt <www.josdeberdt.be>
+ * @version 0.0.8
+ * @package community_store_mollie
+ * @github jozzeh
+ */
+
 use Package;
 use Page;
 use SinglePage;
@@ -13,7 +22,7 @@ class controller extends Package{
 
   protected $pkgHandle = 'community_store_mollie';
   protected $appVersionRequired = '5.7.5.8';
-  protected $pkgVersion = '1.0.1';
+  protected $pkgVersion = '0.0.8';
 
   public function getPackageDescription(){
     return t("Adds the mollie payment gateway to C5 community store.");
