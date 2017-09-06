@@ -27,7 +27,7 @@ class Paymollie extends DashboardPageController{
     $methods = $mollie->methods->all();
     if(!empty($methods)){
       $db = Database::connection();
-      $db->Execute('delete * from molStoreMethods');
+      $db->Execute('delete from molStoreMethods');
       foreach($methods as $payMethod){
         $cData = array();
         $cData[] = $payMethod->id;
