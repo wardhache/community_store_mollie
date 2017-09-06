@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  xmlns="http://www.concrete5.org/doctrine-xml/0.5"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.concrete5.org/doctrine-xml/0.5 http://concrete5.github.io/doctrine-xml/doctrine-xml-0.5.xsd">
+    <table name="molStoreMethods">
+        <field name="pID" type="integer" size="10">
+          <unsigned/>
+          <autoincrement/>
+          <key/>
+        </field>
+        <field name="pMollieID" type="text"></field>
+        <field name="pTitle" type="text"></field>
+        <field name="pImage" type="text"></field>
+        <field name="pMinimum" type="text"></field>
+        <field name="pMaximum" type="text"></field>
+    </table>
+    <table name="molStoreOrderTransactions">
+        <field name="tID" type="integer" size="10">
+          <unsigned/>
+          <autoincrement/>
+          <key/>
+        </field>
+        <field name="oID" type="integer"></field>
+        <field name="pID" type="text"></field>
+    </table>
+</schema>
