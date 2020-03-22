@@ -4,25 +4,15 @@
   use Concrete\Core\Multilingual\Page\Section\Section;
   use Concrete\Core\Routing\RedirectResponse;
   use Concrete\Core\Support\Facade\Application;
+  use Concrete\Core\Support\Facade\Config;
+  use Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order as StoreOrder;
+  use Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as StoreOrderStatus;
+  use Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as StorePaymentMethod;
   use Concrete\Package\CommunityStoreMollie\Src\Mollie\Method;
   use Concrete\Package\CommunityStoreMollie\Src\Mollie\Order\Transaction;
   use Mollie\Api\MollieApiClient;
-  use Package;
-  use Core;
-  use Controller;
-  use URL;
-  use Concrete\Core\Support\Facade\Config;
   use Session;
-  use Log;
-  use Page;
-  use User;
-  use Loader;
-  use Database;
-  use Redirect;
-  use \Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as StorePaymentMethod;
-  use \Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order as StoreOrder;
-  use \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as StoreOrderStatus;
-  use Events;
+  use URL;
 
   class MolliePaymentMethod extends StorePaymentMethod
   {

@@ -18,10 +18,9 @@ use Concrete\Core\Support\Facade\Events;
 use Concrete\Core\Support\Facade\Session;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderEvent;
-use Concrete\Package\CommunityStoreMollie\Src\Mollie\Order\Transaction;
+use Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as StoreOrderStatus;
+use Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as PaymentMethod;
 use Route;
-use \Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as PaymentMethod;
-use \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as StoreOrderStatus;
 use Whoops\Exception\ErrorException;
 
 class controller extends Package
