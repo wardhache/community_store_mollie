@@ -2,7 +2,8 @@
   namespace Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie;
 
   use Concrete\Core\Support\Facade\Application;
-  use Package;
+use Concrete\Package\CommunityStoreMollie\Src\Mollie\Method;
+use Package;
   use Core;
   use Controller;
   use URL;
@@ -38,6 +39,12 @@
 
       public function save(array $data = [])
       {
+        $oldApiKey = Config::get('community_store.mollie.api_key');
+
+        if ($oldApiKey !== $data['mollieApiKey']) {
+          Method::rescan();
+        }
+
         Config::save('community_store.mollie.order_status_on_cancel', $data['mollieOrderStatusOnCancel']);
         Config::save('community_store.mollie.api_key', $data['mollieApiKey']);
       }
