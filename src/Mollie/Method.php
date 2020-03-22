@@ -1,8 +1,11 @@
 <?php
 namespace Concrete\Package\CommunityStoreMollie\Src\Mollie;
 
+use Concrete\Core\Support\Facade\Config;
+use Concrete\Core\Support\Facade\Database;
 use Doctrine\ORM\Mapping as ORM;
 use Concrete\Core\Support\Facade\DatabaseORM;
+use Mollie\Api\MollieApiClient;
 
 /**
  * @ORM\Entity
@@ -143,40 +146,31 @@ class Method
     $em->flush();
   }
 
-  public static function add(
-    string $mollieID,
-    string $title,
-    string $image,
-    float $minimum = null,
-    float $maximum = null
-  ): self {
-    $entity = new self();
+  public static function rescan()
+  {
+    $em = Database::connection()->getEntityManager();
+    $em->createQueryBuilder()->delete(self::class)->getQuery()->execute();
 
-    $entity
-      ->setMollieID($mollieID)
-      ->setTitle($title)
-      ->setImage($image)
-      ->setMinimum($minimum)
-      ->setMaximum($maximum)
-      ->save();
+    $mollie = new MollieApiClient();
+    $mollie->setApiKey(Config::get('community_store.mollie.api_key'));
+    $paymentMethods = $mollie->methods->allActive();
 
-    return $entity;
-  }
+    foreach ($paymentMethods as $paymentMethod) {
+      $method = new self();
+      $method->setMollieID($paymentMethod->id);
+      $method->setTitle($paymentMethod->description);
+      $method->setImage($paymentMethod->image->size1x);
 
-  public function update(
-    string $title,
-    string $image,
-    ?float $minimum,
-    ?float $maximum
-  ): self {
-    $this
-      ->setTitle($title)
-      ->setImage($image)
-      ->setMinimum($minimum)
-      ->setMaximum($maximum)
-      ->save();
+      if ($minimum = $paymentMethod->minimumAmount->value) {
+        $method->setMinimum((float) $minimum);
+      }
 
-    return $this;
+      if ($maximum = $paymentMethod->maximumAmount->value) {
+        $method->setMaximum((float) $maximum);
+      }
+
+      $method->save();
+    }
   }
 
   public static function getByID(int $pID): self
