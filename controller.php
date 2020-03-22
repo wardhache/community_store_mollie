@@ -14,6 +14,11 @@ use Concrete\Core\Package\Package;
 use Concrete\Core\Package\PackageService;
 use Concrete\Core\Page\Page;
 use Concrete\Core\Page\Single as SinglePage;
+use Concrete\Core\Support\Facade\Events;
+use Concrete\Core\Support\Facade\Session;
+use Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order;
+use Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderEvent;
+use Concrete\Package\CommunityStoreMollie\Src\Mollie\Order\Transaction;
 use Route;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as PaymentMethod;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as StoreOrderStatus;
@@ -24,6 +29,7 @@ class controller extends Package
   protected $pkgHandle = 'community_store_mollie';
   protected $appVersionRequired = '8.2.1';
   protected $pkgVersion = '0.0.8';
+  protected $paymentMethodName = 'Mollie';
 
   public function getPackageDescription()
   {
@@ -44,6 +50,17 @@ class controller extends Package
   {
     $this->registerRoutes();
     $this->setupAutoloader();
+
+    Events::addListener(OrderEvent::ORDER_CREATED, function ($event) {
+      /** @var Order $order */
+      $order = $event->getOrder();
+
+      if ($order->getPaymentMethodName() !== $this->paymentMethodName) {
+        return;
+      }
+
+      Session::set('molliePaymentMethod', $_POST['molliePaymentMethod'] ?? null);
+    });
   }
 
   public function install()
@@ -57,7 +74,7 @@ class controller extends Package
     parent::install();
 
     $this->installSinglePage();
-    PaymentMethod::add('mollie', 'Mollie', $this);
+    PaymentMethod::add('mollie', $this->paymentMethodName, $this);
 
     $orderStatus = StoreOrderStatus::getByHandle('nodelivery');
     if (is_object($orderStatus)){

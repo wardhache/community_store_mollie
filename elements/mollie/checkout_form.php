@@ -1,19 +1,21 @@
 <?php
-defined('C5_EXECUTE') or die(_("Access Denied."));
+defined('C5_EXECUTE') or die('Access Denied.');
 extract($vars);
-
-
-if(!empty($molliemethods)){
-
-  echo t('Click on "Complete Order" to start the payment process.<br/>');
-  echo t('In the next screen you will be able to choose between these payment methods:<br/>');
-  foreach($molliemethods as $mMethod){
-    echo '<img src="'.$mMethod['pImage'].'" title="'.$mMethod['pTitle'].'"/> ';
-  }
-}else{
-  echo '<p>';
-  echo t('Error: No payment options available. Please contact the website owner.');
-  echo '</p>';
-}
-
 ?>
+
+<?php if ($methods) { ?>
+  <?php foreach ($methods as $method) { ?>
+    <div class="form-group">
+      <div class="radio">
+        <label>
+          <input type="radio" id="molliePaymentMethod<?php echo $method->getID(); ?>" value="<?php echo $method->getMollieID(); ?>" name="molliePaymentMethod" />
+          <img src="<?php echo $method->getImage(); ?>" style="height: 24px; width: auto;" /> <?php echo $method->getTitle(); ?>
+        </label>
+      </div>
+    </div>
+  <?php } ?>
+<?php } else { ?>
+  <div class="alert alert-danger">
+    <?php echo t('Error: No payment options available. Please contact the website owner.'); ?>
+  </div>
+<?php } ?>
