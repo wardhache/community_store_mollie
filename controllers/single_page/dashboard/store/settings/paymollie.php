@@ -49,11 +49,11 @@ class Paymollie extends DashboardPageController{
 
   public function includePaymentAPI(){
     $pkg = Package::getByHandle('community_store_mollie');
-    $ppath = $pkg->getPackagePath();
-    include_once($ppath.'/vendor/Mollie/API/Autoloader.php');
-    $pkgconfig = $pkg->getConfig();
-    $this->set('apiKey',$pkgconfig->get('storemollie.apikey'));
-    return $pkgconfig->get('storemollie.apikey');
+    $pkgConfig = $pkg->getConfig();
+
+    $this->set('apiKey', $pkgConfig->get('storemollie.apikey'));
+
+    return $pkgConfig->get('storemollie.apikey');
   }
   public function loadPaymentData(){
     $this->set('form',Core::make("helper/form"));
