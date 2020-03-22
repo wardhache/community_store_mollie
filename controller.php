@@ -11,24 +11,27 @@ namespace Concrete\Package\CommunityStoreMollie;
  */
 
 use Concrete\Core\Package\Package;
-use Page;
-use SinglePage;
+use Concrete\Core\Package\PackageService;
+use Concrete\Core\Page\Page;
+use Concrete\Core\Page\Single as SinglePage;
 use Route;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as PaymentMethod;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as StoreOrderStatus;
 use Whoops\Exception\ErrorException;
 
-class controller extends Package{
-
+class controller extends Package
+{
   protected $pkgHandle = 'community_store_mollie';
   protected $appVersionRequired = '8.2.1';
   protected $pkgVersion = '0.0.8';
 
-  public function getPackageDescription(){
+  public function getPackageDescription()
+  {
     return t("Mollie Payment Method for Community Store");
   }
 
-  public function getPackageName(){
+  public function getPackageName()
+  {
     return t("Mollie payment method");
   }
 
@@ -37,60 +40,61 @@ class controller extends Package{
     'src/Mollie' => '\Concrete\Package\CommunityStoreMollie\Src\Mollie',
   ];
 
-  public function on_start(){
+  public function on_start()
+  {
     $this->registerRoutes();
     $this->setupAutoloader();
   }
 
-  public function install(){
-    $installed = Package::getInstalledHandles();
-    if(!(is_array($installed) && in_array('community_store',$installed)) ) {
+  public function install()
+  {
+    $installedPackages = $this->app->make(PackageService::class)->getInstalledHandles();
+
+    if (!(is_array($installedPackages) && in_array('community_store', $installedPackages, true))) {
       throw new ErrorException(t('This package requires that Community Store be installed'));
-    } else {
-      $pkg = parent::install();
-      $pm = new PaymentMethod();
-      $pm->add('mollie','Mollie',$pkg);
+    }
 
-      $sp = Page::getByPath('/dashboard/store/settings/paymollie');
-      if ($sp->isError() || (!is_object($sp))) {
-          $sp = SinglePage::add('/dashboard/store/settings/paymollie', $pkg);
-      }
-      if(is_object($sp)){
-        $uData = array();
-        $uData['cName'] = "Mollie Payment";
-        $sp->update($uData);
-      }
+    parent::install();
 
-      $orderStatus = StoreOrderStatus::getByHandle('nodelivery');
-      if(is_object($orderStatus)){
-        $pkg->getConfig()->save('storemollie.orderStatusOnCancel','nodelivery');
-      }
+    $this->installSinglePage();
+    PaymentMethod::add('mollie', 'Mollie', $this);
+
+    $orderStatus = StoreOrderStatus::getByHandle('nodelivery');
+    if (is_object($orderStatus)){
+      $this->getConfig()->save('storemollie.orderStatusOnCancel','nodelivery');
     }
   }
 
-  public function upgrade(){
+  public function upgrade()
+  {
     parent::upgrade();
-    $pkg = Package::getByHandle('community_store_mollie');
-    $sp = Page::getByPath('/dashboard/store/settings/paymollie');
-    if ($sp->isError() || (!is_object($sp))) {
-      $sp = SinglePage::add('/dashboard/store/settings/paymollie', $pkg);
-    }
-    if(is_object($sp)){
-      $uData = array();
-      $uData['cName'] = "Mollie Payment";
-      $sp->update($uData);
-    }
+    $this->installSinglePage();
   }
 
-  public function uninstall(){
-    if(PaymentMethod::getByHandle('mollie')){
-      PaymentMethod::getByHandle('mollie')->delete();
+  public function uninstall()
+  {
+    if ($paymentMethod = PaymentMethod::getByHandle('mollie')){
+      $paymentMethod->delete();
     }
 
     parent::uninstall();
   }
 
-  public function registerRoutes(){
+  private function installSinglePage()
+  {
+    $page = Page::getByPath('/dashboard/store/settings/paymollie');
+
+    if ($page->isError() || (!is_object($page))) {
+      $page = SinglePage::add('/dashboard/store/settings/paymollie', $this);
+
+      $page->update([
+        'cName' => 'Mollie Payment'
+      ]);
+    }
+  }
+
+  private function registerRoutes()
+  {
     Route::register('/checkout/mollieresponse', '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::validateCompletion');
     Route::register('/checkout/ordercompletion/{oID}', '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::customerValidation', 'customervalidate' ,array('oID' => '\d+'));
   }
