@@ -82,7 +82,7 @@ class controller extends Package{
       PaymentMethod::getByHandle('mollie')->delete();
     }
 
-    $pkg = parent::uninstall();
+    parent::uninstall();
   }
 
   public function registerRoutes(){
