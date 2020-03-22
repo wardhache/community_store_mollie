@@ -1,0 +1,72 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-03-22 19:35+0100\n"
+"PO-Revision-Date: 2020-03-22 19:38+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: t\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: controller.php:35
+msgid "Mollie Payment Method for Community Store"
+msgstr "Mollie betaalmethode voor Community Store"
+
+#: controller.php:40
+msgid "Mollie payment method"
+msgstr "Mollie betaalmethode"
+
+#: controller.php:70
+msgid "This package requires that Community Store be installed"
+msgstr "Voor deze add-on moet Community Store geïnstalleerd zijn."
+
+#: elements/mollie/checkout_form.php:19
+msgid "Error: No payment options available. Please contact the website owner."
+msgstr "Error: er zijn geen betaalmethodes beschikbaar. Contacteer de eigenaar van deze website."
+
+#: elements/mollie/dashboard_form.php:8
+msgid "Api Key"
+msgstr "API sleutel"
+
+#: elements/mollie/dashboard_form.php:13
+msgid "Status of order when a payment is cancelled"
+msgstr "De status van de bestelling wanneer de betaling wordt geannuleerd"
+
+#: elements/mollie/dashboard_form.php:18
+msgid "View Mollie Payment Methods"
+msgstr "Bekijk Mollie Betaalmethodes"
+
+#: single_pages/dashboard/store/settings/paymollie.php:5
+msgid "Payment methods are successfully updated."
+msgstr "Betaalmethodes zijn met succes bijgewerkt."
+
+#: single_pages/dashboard/store/settings/paymollie.php:14
+msgid "Name"
+msgstr "Naam"
+
+#: single_pages/dashboard/store/settings/paymollie.php:15
+msgid "Minimum"
+msgstr "Minimum"
+
+#: single_pages/dashboard/store/settings/paymollie.php:16
+msgid "Maximum"
+msgstr "Maximum"
+
+#: single_pages/dashboard/store/settings/paymollie.php:34
+msgid "Rescan"
+msgstr "Opnieuw scannen"
+
+#: single_pages/dashboard/store/settings/paymollie.php:37
+msgid "General Settings"
+msgstr "Algemene instellingen"
+
+#: src/CommunityStore/Payment/Methods/Mollie/MolliePaymentMethod.php:48
+msgid "Mollie API Key must be set"
+msgstr "De Mollie API sleutel moet ingevoerd worden"
