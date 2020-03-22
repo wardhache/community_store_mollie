@@ -1,6 +1,11 @@
-<?php
-defined('C5_EXECUTE') or die(_("Access Denied."));
-?>
+<?php defined('C5_EXECUTE') or die('Access Denied.'); ?>
+
+<?php if ($status === 'rescanned') { ?>
+    <div class="alert alert-success">
+        <?php echo t('Payment methods are successfully updated.'); ?>
+    </div>
+<?php } ?>
+
 <?php
   if(empty($apiKey)){
     echo '<h4 style="color:red;">';
