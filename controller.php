@@ -61,7 +61,7 @@ class controller extends Package
 
     $orderStatus = StoreOrderStatus::getByHandle('nodelivery');
     if (is_object($orderStatus)){
-      $this->getConfig()->save('storemollie.orderStatusOnCancel','nodelivery');
+      Config::set('community_store.mollie.order_status_on_cancel', 'nodelivery');
     }
   }
 

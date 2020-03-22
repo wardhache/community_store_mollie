@@ -1,11 +1,10 @@
 <?php
 namespace Concrete\Package\CommunityStoreMollie\Controller\SinglePage\Dashboard\Store\Settings;
 
-use \Concrete\Core\Page\Controller\DashboardPageController;
+use Concrete\Core\Page\Controller\DashboardPageController;
 use View;
 use Loader;
 use Database;
-use Package;
 use \Concrete\Package\CommunityStore\Src\CommunityStore\Payment\Method as StorePaymentMethod;
 use Config;
 use Core;
@@ -48,12 +47,9 @@ class Paymollie extends DashboardPageController{
   }
 
   public function includePaymentAPI(){
-    $pkg = Package::getByHandle('community_store_mollie');
-    $pkgConfig = $pkg->getConfig();
+    $this->set('apiKey', Config::get('community_store.mollie.api_key'));
 
-    $this->set('apiKey', $pkgConfig->get('storemollie.apikey'));
-
-    return $pkgConfig->get('storemollie.apikey');
+    return Config::get('community_store.mollie.api_key');
   }
   public function loadPaymentData(){
     $this->set('form',Core::make("helper/form"));

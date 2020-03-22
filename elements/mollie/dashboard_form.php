@@ -7,7 +7,7 @@ $statusList = \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderSta
 ?>
 <div class="form-group">
   <?=$form->label('apiKey',t('Enter your API Key'))?>
-  <?=$form->text('apiKey',$apiKey)?>
+  <?=$form->text('apiKey', Config::get('community_store.mollie.api_key'))?>
 </div>
 <div class="small" style="color: #999;">
   <?php echo t('After adding the API key, go to the mollie settings page below the store settings to scan for available payment options.'); ?>
@@ -27,7 +27,7 @@ $statusList = \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderSta
 </div>
 <div class="form-group">
   <?=$form->label('orderStatusOnCancel', t('Status of order when a payment is cancelled'));?>
-  <?=$form->select('orderStatusOnCancel', $statusList, $orderStatusOnCancel);?>
+  <?=$form->select('orderStatusOnCancel', $statusList, Config::get('community_store.mollie.order_status_on_cancel'));?>
 </div>
 <div class="small" style="color: #999;">
   <strong>
