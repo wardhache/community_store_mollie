@@ -5,12 +5,12 @@ extract($vars);
 ?>
 
 <div class="form-group">
-  <?php echo $form->label('mollieApiKey', t('Enter your API Key')); ?>
+  <label><?= t('Api Key')?></label>
   <?php echo $form->text('mollieApiKey', $apiKey); ?>
 </div>
 
 <div class="form-group">
-  <?php echo $form->label('mollieOrderStatusOnCancel', t('Status of order when a payment is cancelled')); ?>
+  <label><?= t('Status of order when a payment is cancelled')?></label>
   <?php echo $form->select('mollieOrderStatusOnCancel', $statusList, $orderStatusOnCancel); ?>
 </div>
 
