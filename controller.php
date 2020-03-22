@@ -5,7 +5,7 @@ namespace Concrete\Package\CommunityStoreMollie;
  * Community Store Mollie
  *
  * @author Jos De Berdt <www.josdeberdt.be>
- * @version 0.0.8
+ * @version 1.0.0
  * @package community_store_mollie
  * @github jozzeh
  */
@@ -27,7 +27,7 @@ class controller extends Package
 {
   protected $pkgHandle = 'community_store_mollie';
   protected $appVersionRequired = '8.2.1';
-  protected $pkgVersion = '0.0.8';
+  protected $pkgVersion = '1.0.0';
   protected $paymentMethodName = 'Mollie';
 
   public function getPackageDescription()
