@@ -1,17 +1,18 @@
 <?php
-defined('C5_EXECUTE') or die(_("Access Denied."));
-extract($vars);
+defined('C5_EXECUTE') or die('Access Denied.');
 
-$form = Core::Make('helper/form');
-$statusList = \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus::getList();
+extract($vars);
 ?>
+
 <div class="form-group">
-  <?=$form->label('apiKey',t('Enter your API Key'))?>
-  <?=$form->text('apiKey', Config::get('community_store.mollie.api_key'))?>
+  <?php echo $form->label('mollieApiKey', t('Enter your API Key')); ?>
+  <?php echo $form->text('mollieApiKey', $apiKey); ?>
 </div>
+
 <div class="small" style="color: #999;">
   <?php echo t('After adding the API key, go to the mollie settings page below the store settings to scan for available payment options.'); ?>
 </div>
+
 <div class="small" style="color: #999;">
   <p>
     <?php
@@ -25,10 +26,12 @@ $statusList = \Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderSta
     ?>
   </p>
 </div>
+
 <div class="form-group">
-  <?=$form->label('orderStatusOnCancel', t('Status of order when a payment is cancelled'));?>
-  <?=$form->select('orderStatusOnCancel', $statusList, Config::get('community_store.mollie.order_status_on_cancel'));?>
+  <?php echo $form->label('mollieOrderStatusOnCancel', t('Status of order when a payment is cancelled')); ?>
+  <?php echo $form->select('mollieOrderStatusOnCancel', $statusList, $orderStatusOnCancel); ?>
 </div>
+
 <div class="small" style="color: #999;">
   <strong>
     <?php echo t('Important: '); ?>

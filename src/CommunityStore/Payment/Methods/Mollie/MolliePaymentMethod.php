@@ -1,11 +1,12 @@
 <?php
   namespace Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie;
 
+  use Concrete\Core\Support\Facade\Application;
   use Package;
   use Core;
   use Controller;
   use URL;
-  use Config;
+  use Concrete\Core\Support\Facade\Config;
   use Session;
   use Log;
   use Page;
@@ -29,27 +30,33 @@
 
       public function dashboardForm()
       {
-          $this->set('form', Core::make("helper/form"));
+        $this->set('form', Application::getFacadeApplication()->make('helper/form'));
+        $this->set('statusList', StoreOrderStatus::getList());
+        $this->set('apiKey', Config::get('community_store.mollie.api_key'));
+        $this->set('orderStatusOnCancel', Config::get('community_store.mollie.order_status_on_cancel'));
       }
 
       public function save(array $data = [])
       {
-          Config::set('community_store.mollie.order_status_on_cancel', $data['orderStatusOnCancel']);
-          Config::set('community_store.mollie.api_key', $data['apiKey']);
+        Config::save('community_store.mollie.order_status_on_cancel', $data['mollieOrderStatusOnCancel']);
+        Config::save('community_store.mollie.api_key', $data['mollieApiKey']);
       }
-      public function validate($data,$e)
+
+      public function validate($args, $e)
       {
-          //validation stuff
-          //this checks if the method is enabled. If it isn't enabled,
-          //then maybe we don't care to validate
-          $pm = StorePaymentMethod::getByHandle('mollie');
-          if ($args['paymentMethodEnabled'][$pm->getID()]==1) {
-              if ($args['apiKey']=="") {
-                  $e->add(t("API Key must be set"));
-              }
-          }
+        $molliePaymentMethod = StorePaymentMethod::getByHandle('mollie');
+
+        if ((bool) $args['paymentMethodEnabled'][$molliePaymentMethod->getID()] === false) {
           return $e;
+        }
+
+        if (empty($args['mollieApiKey']) || trim($args['mollieApiKey']) === '') {
+          $e->add(t('Mollie API Key must be set'));
+        }
+
+        return $e;
       }
+
       public function checkoutForm()
       {
           $years = array();
