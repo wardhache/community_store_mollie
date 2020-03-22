@@ -10,7 +10,7 @@ namespace Concrete\Package\CommunityStoreMollie;
  * @github jozzeh
  */
 
-use Package;
+use Concrete\Core\Package\Package;
 use Page;
 use SinglePage;
 use Route;
@@ -21,7 +21,7 @@ use Whoops\Exception\ErrorException;
 class controller extends Package{
 
   protected $pkgHandle = 'community_store_mollie';
-  protected $appVersionRequired = '5.7.5.8';
+  protected $appVersionRequired = '8.2.1';
   protected $pkgVersion = '0.0.8';
 
   public function getPackageDescription(){
@@ -31,6 +31,11 @@ class controller extends Package{
   public function getPackageName(){
     return t("Mollie payment method");
   }
+
+  protected $pkgAutoloaderRegistries = [
+    'src/CommunityStore' => '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore',
+    'src/Mollie' => '\Concrete\Package\CommunityStoreMollie\Src\Mollie',
+  ];
 
   public function on_start(){
     $this->registerRoutes();
