@@ -34,7 +34,7 @@ class controller extends Package{
 
   public function on_start(){
     $this->registerRoutes();
-    require $this->getPackagePath() . '/vendor/Mollie/API/Autoloader.php';
+    $this->setupAutoloader();
   }
 
   public function install(){
@@ -88,5 +88,12 @@ class controller extends Package{
   public function registerRoutes(){
     Route::register('/checkout/mollieresponse', '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::validateCompletion');
     Route::register('/checkout/ordercompletion/{oID}', '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::customerValidation', 'customervalidate' ,array('oID' => '\d+'));
+  }
+
+  private function setupAutoloader()
+  {
+    if (file_exists($this->getPackagePath() . '/vendor')) {
+      require_once $this->getPackagePath() . '/vendor/autoload.php';
+    }
   }
 }

@@ -1,0 +1,10 @@
+{
+    "name": "concrete5-community-store/community_store_mollie",
+    "type": "concrete5-package",
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "6.3.3",
+        "mollie/mollie-api-php": "^2.17"
+    },
+    "minimum-stability": "stable"
+}
