@@ -2,8 +2,10 @@
   namespace Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie;
 
   use Concrete\Core\Support\Facade\Application;
-use Concrete\Package\CommunityStoreMollie\Src\Mollie\Method;
-use Package;
+  use Concrete\Package\CommunityStoreMollie\Src\Mollie\Method;
+  use Concrete\Package\CommunityStoreMollie\Src\Mollie\Order\Transaction;
+  use Mollie\Api\MollieApiClient;
+  use Package;
   use Core;
   use Controller;
   use URL;
@@ -27,8 +29,6 @@ use Package;
 
   class MolliePaymentMethod extends StorePaymentMethod
   {
-      public $external = true;
-
       public function dashboardForm()
       {
         $this->set('form', Application::getFacadeApplication()->make('helper/form'));
@@ -66,58 +66,32 @@ use Package;
 
       public function checkoutForm()
       {
-          $years = array();
-          $year = date("Y");
-          for($i=0;$i<15;$i++){
-              $years[$year+$i] = $year+$i;
-          }
-          $this->set("years",$years);
-          $this->set('form',Core::make("helper/form"));
-
-          $db = Database::connection();
-          $molliemethods = $db->fetchAll('select * from molStoreMethods');
-          $this->set('molliemethods', $molliemethods);
+        $this->set('form', Application::getFacadeApplication()->make('helper/form'));
+        $this->set('methods', Method::getAll());
       }
 
-      public function redirectForm(){
-        //nothing here
-      }
-
-      public function getAction(){
-        //create mollie payment and get paymentURL
-        $pkg = Package::getByHandle('community_store_mollie');
-
-        $mollie = new \Mollie_API_Client;
+      public function getAction()
+      {
+        $mollie = new MollieApiClient();
 				$mollie->setApiKey(Config::get('community_store.mollie.api_key'));
 
-        $customer = new StoreCustomer();
-        $totals = StoreCalculator::getTotals();
         $order = StoreOrder::getByID(Session::get('orderID'));
+        $molliePaymentMethod = Session::get('molliePaymentMethod');
 
-        $checkoutPage = Page::getByPath('checkout');
-        $nh = Loader::helper('navigation');
-        $cpl = BASE_URL.'/index.php/checkout';
+        $payment = $mollie->payments->create([
+          'amount' => [
+            'currency' => Config::get('community_store.currency'),
+            'value' => number_format($order->getTotal(), 2, '.', ''),
+          ],
+          'description' => Config::get('concrete.site') . ' Order: ' . $order->getOrderID(),
+          'redirectUrl' => (string) URL::to('/checkout/ordercompletion/' . $order->getOrderID()),
+          'webhookUrl' => (string) URL::to('/checkout/mollieresponse'),
+          'method' => $molliePaymentMethod,
+        ]);
 
-        $payment = $mollie->payments->create(
-		        array(
-	            'amount'      => $order->getTotal(),
-	            'description' => Config::get('concrete.site').' Order : '.$order->getOrderID(),
-	            'redirectUrl' => $cpl.'/ordercompletion/'.$order->getOrderID(),
-              'webhookUrl' => $cpl.'/mollieresponse',
-	            'metadata'    => array(
-	                'order_id' => $order->getOrderID()
-	            )
-		        )
-			    );
+        Transaction::add($order, $payment->id);
 
-        $opData = array();
-        $opData[] = $order->getOrderID();
-        $opData[] = $payment->id;
-
-        $db = Database::connection();
-        $db->Execute('insert into molStoreOrderTransactions (oID, pID) values (?,?)', $opData);
-
-        return $payment->getPaymentUrl();
+        return $payment->getCheckoutUrl();
       }
 
       public static function validateCompletion(){
@@ -233,20 +207,4 @@ use Package;
       public function markPaid() {
           return false;
       }
-
-      public function submitPayment(){
-        //nothing special
-        return array('error'=>0, 'transactionReference'=>'');
-      }
-
-      public function getPaymentMinimum()
-      {
-          return 0.03;
-      }
-
-      public function getPaymentMaximum()
-      {
-          return 50000;
-      }
   }
-?>
