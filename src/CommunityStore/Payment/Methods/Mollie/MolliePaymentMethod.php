@@ -29,18 +29,13 @@
 
       public function dashboardForm()
       {
-          $pkg = Package::getByHandle("community_store_mollie");
-          $pkgconfig = $pkg->getConfig();
-          $this->set('apiKey',$pkgconfig->get('storemollie.apikey'));
-          $this->set('orderStatusOnCancel',$pkgconfig->get('storemollie.orderStatusOnCancel'));
-          $this->set('form',Core::make("helper/form"));
+          $this->set('form', Core::make("helper/form"));
       }
 
       public function save(array $data = [])
       {
-          $pkg = Package::getByHandle("community_store_mollie");
-          $pkg->getConfig()->save('storemollie.apikey',$data['apiKey']);
-          $pkg->getConfig()->save('storemollie.orderStatusOnCancel',$data['orderStatusOnCancel']);
+          Config::set('community_store.mollie.order_status_on_cancel', $data['orderStatusOnCancel']);
+          Config::set('community_store.mollie.api_key', $data['apiKey']);
       }
       public function validate($data,$e)
       {
@@ -77,10 +72,9 @@
       public function getAction(){
         //create mollie payment and get paymentURL
         $pkg = Package::getByHandle('community_store_mollie');
-        $pkgconfig = $pkg->getConfig();
 
         $mollie = new \Mollie_API_Client;
-				$mollie->setApiKey($pkgconfig->get('storemollie.apikey'));
+				$mollie->setApiKey(Config::get('community_store.mollie.api_key'));
 
         $customer = new StoreCustomer();
         $totals = StoreCalculator::getTotals();
@@ -118,7 +112,7 @@
         $pkgconfig = $pkg->getConfig();
 
         $mollie = new \Mollie_API_Client;
-				$mollie->setApiKey($pkgconfig->get('storemollie.apikey'));
+				$mollie->setApiKey(Config::get('community_store.mollie.api_key'));
 
         $db = Database::connection();
         $pData = array();
@@ -158,7 +152,7 @@
           $pkgconfig = $pkg->getConfig();
 
           $mollie = new \Mollie_API_Client;
-  				$mollie->setApiKey($pkgconfig->get('storemollie.apikey'));
+  				$mollie->setApiKey(Config::get('community_store.mollie.api_key'));
 
           $db = Database::connection();
           $pData = array();
@@ -199,7 +193,7 @@
           }else if (!$payment->isOpen()){
             //No cancelled status and deleting an order is truly deleting instead of an active field.
 
-            $cancelOrderStatus = $pkgconfig->get('storemollie.orderStatusOnCancel');
+            $cancelOrderStatus = Config::get('community_store.mollie.order_status_on_cancel');
             if(!empty($cancelOrderStatus)){
               //set cancelled order status
               $order->updateStatus($cancelOrderStatus);
