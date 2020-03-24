@@ -7,6 +7,7 @@ https://docs.mollie.com/reference/v2/payments-api
 
 ## Requirements
 
+ATTENTION: This package requires PHP version 7 or higher.  
 The `community_store` package for Concrete5. (https://github.com/concrete5-community-store/community_store)
 
 ## Setup
