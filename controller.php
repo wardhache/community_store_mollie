@@ -16,6 +16,7 @@ use Concrete\Core\Page\Page;
 use Concrete\Core\Page\Single as SinglePage;
 use Concrete\Core\Support\Facade\Events;
 use Concrete\Core\Support\Facade\Session;
+use Concrete\Core\Support\Facade\Config;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderEvent;
 use Concrete\Package\CommunityStore\Src\CommunityStore\Order\OrderStatus\OrderStatus as StoreOrderStatus;
