@@ -28,12 +28,12 @@
       {
         $oldApiKey = Config::get('community_store.mollie.api_key');
 
-        if ($oldApiKey !== $data['mollieApiKey']) {
-          Method::rescan();
-        }
-
         Config::save('community_store.mollie.order_status_on_cancel', $data['mollieOrderStatusOnCancel']);
         Config::save('community_store.mollie.api_key', $data['mollieApiKey']);
+
+	if ($oldApiKey !== $data['mollieApiKey']) {
+	    Method::rescan();
+        }
       }
 
       public function validate($args, $e)
