@@ -173,21 +173,21 @@ class Method
     }
   }
 
-  public static function getByID(int $pID): self
+  public static function getByID($pID)
   {
     $em = databaseORM::entityManager();
 
     return $em->getRepository(get_class())->findOneBy(['pID' => $pID], []);
   }
 
-  public static function getByMollieID(int $pMollieID): self
+  public static function getByMollieID($pMollieID)
   {
     $em = databaseORM::entityManager();
 
     return $em->getRepository(get_class())->findOneBy(['pMollieID' => $pMollieID], []);
   }
 
-  public static function getAll(): array
+  public static function getAll()
   {
     $em = databaseORM::entityManager();
 
