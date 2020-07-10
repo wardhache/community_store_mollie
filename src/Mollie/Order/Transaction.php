@@ -130,7 +130,7 @@ class Transaction
         return $em->getRepository(get_class())->findOneBy(['order' => $order], []);
     }
 
-    public static function getByMolliePaymentID(int $molliePaymentID): self
+    public static function getByMolliePaymentID(string $molliePaymentID): self
     {
         $em = databaseORM::entityManager();
 
