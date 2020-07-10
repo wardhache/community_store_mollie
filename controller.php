@@ -113,8 +113,15 @@ class controller extends Package
 
     private function registerRoutes()
     {
-        Route::register('/checkout/mollieresponse', '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::validateCompletion');
-        Route::register('/checkout/ordercompletion/{oID}', '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::customerValidation', 'customervalidate', array('oID' => '\d+'));
+        Route::register(
+            '/checkout/mollieresponse',
+            '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::validateCompletion'
+        );
+        
+        Route::register(
+            '/checkout/ordercompletion/{oID}',
+            '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::customerValidation',
+        );
     }
 
     private function setupAutoloader()

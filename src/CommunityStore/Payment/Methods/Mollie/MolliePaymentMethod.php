@@ -116,9 +116,10 @@ class MolliePaymentMethod extends StorePaymentMethod
 
         $order = StoreOrder::getByID($oID);
 
-        if (!empty($order)) {
+        if (empty($order)) {
             $response = new RedirectResponse($languagePath . '/checkout');
-            $response->send();
+
+            return $response->send();
         }
 
         $transaction = Transaction::getByOrder($order);
@@ -141,7 +142,8 @@ class MolliePaymentMethod extends StorePaymentMethod
         }
 
         $response = new RedirectResponse($languagePath . '/checkout/complete');
-        $response->send();
+
+        return $response->send();
     }
 
     public function isExternal()
