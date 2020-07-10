@@ -1,4 +1,5 @@
 <?php
+
 namespace Concrete\Package\CommunityStoreMollie\Src\Mollie\Order;
 
 use Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order;
@@ -11,135 +12,135 @@ use Concrete\Core\Support\Facade\DatabaseORM;
  */
 class Transaction
 {
-  /**
-   * @var int
-   *
-   * @ORM\Id
-   * @ORM\Column(type="integer")
-   * @ORM\GeneratedValue
-   */
-  protected $tID;
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue
+     */
+    protected $tID;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(type="integer")
-   */
-  protected $oID;
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $oID;
 
-  /**
-   * @var int
-   *
-   * @ORM\Column(type="string")
-   */
-  protected $pID;
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $pID;
 
-  /**
-   * @var Order
-   *
-   * @ORM\ManyToOne(targetEntity="Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order", cascade={"persist"})
-   * @ORM\JoinColumn(name="oID", referencedColumnName="oID", onDelete="CASCADE")
-   */
-  protected $order;
+    /**
+     * @var Order
+     *
+     * @ORM\ManyToOne(targetEntity="Concrete\Package\CommunityStore\Src\CommunityStore\Order\Order", cascade={"persist"})
+     * @ORM\JoinColumn(name="oID", referencedColumnName="oID", onDelete="CASCADE")
+     */
+    protected $order;
 
-  /** @var string */
-  protected static $table = 'molStoreOrderTransactions';
+    /** @var string */
+    protected static $table = 'molStoreOrderTransactions';
 
-  public static function getTable(): string
-  {
-    return self::$table;
-  }
+    public static function getTable(): string
+    {
+        return self::$table;
+    }
 
-  public function setOrder(Order $order): self
-  {
-    $this->order = $order;
+    public function setOrder(Order $order): self
+    {
+        $this->order = $order;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public function setMolliePaymentID(string $molliePaymentID): self
-  {
-    $this->pID = $molliePaymentID;
+    public function setMolliePaymentID(string $molliePaymentID): self
+    {
+        $this->pID = $molliePaymentID;
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public function getID(): int
-  {
-    return $this->tID;
-  }
+    public function getID(): int
+    {
+        return $this->tID;
+    }
 
-  public function getOrder(): Order
-  {
-    return $this->order;
-  }
+    public function getOrder(): Order
+    {
+        return $this->order;
+    }
 
-  public function getMolliePaymentID(): string
-  {
-    return $this->pID;
-  }
+    public function getMolliePaymentID(): string
+    {
+        return $this->pID;
+    }
 
-  public function save(): void
-  {
-    $em = databaseORM::entityManager();
-    $em->persist($this);
-    $em->flush();
-  }
+    public function save(): void
+    {
+        $em = databaseORM::entityManager();
+        $em->persist($this);
+        $em->flush();
+    }
 
-  public function delete(): void
-  {
-    $em = databaseORM::entityManager();
-    $em->remove($this);
-    $em->flush();
-  }
+    public function delete(): void
+    {
+        $em = databaseORM::entityManager();
+        $em->remove($this);
+        $em->flush();
+    }
 
-  public static function add(Order $order, string $molliePaymentID): self
-  {
-    $entity = new self();
+    public static function add(Order $order, string $molliePaymentID): self
+    {
+        $entity = new self();
 
-    $entity
-      ->setOrder($order)
-      ->setMolliePaymentID($molliePaymentID)
-      ->save();
+        $entity
+            ->setOrder($order)
+            ->setMolliePaymentID($molliePaymentID)
+            ->save();
 
-    return $entity;
-  }
+        return $entity;
+    }
 
-  public function update(Order $order, string $molliePaymentID): self
-  {
-    $this
-      ->setOrder($order)
-      ->setMolliePaymentID($molliePaymentID)
-      ->save();
+    public function update(Order $order, string $molliePaymentID): self
+    {
+        $this
+            ->setOrder($order)
+            ->setMolliePaymentID($molliePaymentID)
+            ->save();
 
-    return $this;
-  }
+        return $this;
+    }
 
-  public static function getByID(int $tID): self
-  {
-    $em = databaseORM::entityManager();
+    public static function getByID(int $tID): self
+    {
+        $em = databaseORM::entityManager();
 
-    return $em->getRepository(get_class())->findOneBy(['tID' => $tID], []);
-  }
+        return $em->getRepository(get_class())->findOneBy(['tID' => $tID], []);
+    }
 
-  public static function getByOrder(Order $order): self
-  {
-    $em = databaseORM::entityManager();
+    public static function getByOrder(Order $order): self
+    {
+        $em = databaseORM::entityManager();
 
-    return $em->getRepository(get_class())->findOneBy(['order' => $order], []);
-  }
+        return $em->getRepository(get_class())->findOneBy(['order' => $order], []);
+    }
 
-  public static function getByMolliePaymentID(int $molliePaymentID): self
-  {
-    $em = databaseORM::entityManager();
+    public static function getByMolliePaymentID(int $molliePaymentID): self
+    {
+        $em = databaseORM::entityManager();
 
-    return $em->getRepository(get_class())->findOneBy(['pID' => $molliePaymentID], []);
-  }
+        return $em->getRepository(get_class())->findOneBy(['pID' => $molliePaymentID], []);
+    }
 
-  public static function getAll(): array
-  {
-    $em = databaseORM::entityManager();
+    public static function getAll(): array
+    {
+        $em = databaseORM::entityManager();
 
-    return $em->getRepository(get_class())->findBy([], []);
-  }
+        return $em->getRepository(get_class())->findBy([], []);
+    }
 }
