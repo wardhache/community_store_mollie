@@ -79,7 +79,9 @@ class MolliePaymentMethod extends StorePaymentMethod
 
         Transaction::add($order, $payment->id);
 
-        return $payment->getCheckoutUrl();
+        $response = new RedirectResponse($payment->getCheckoutUrl());
+
+        return $response->send();
     }
 
     public static function validateCompletion()
