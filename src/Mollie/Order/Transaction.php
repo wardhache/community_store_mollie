@@ -80,14 +80,14 @@ class Transaction
         return $this->pID;
     }
 
-    public function save(): void
+    public function save()
     {
         $em = databaseORM::entityManager();
         $em->persist($this);
         $em->flush();
     }
 
-    public function delete(): void
+    public function delete()
     {
         $em = databaseORM::entityManager();
         $em->remove($this);
@@ -116,27 +116,31 @@ class Transaction
         return $this;
     }
 
-    public static function getByID(int $tID): self
+    /** @return self|null */
+    public static function getByID(int $tID)
     {
         $em = databaseORM::entityManager();
 
         return $em->getRepository(get_class())->findOneBy(['tID' => $tID], []);
     }
 
-    public static function getByOrder(Order $order): self
+    /** @return self|null */
+    public static function getByOrder(Order $order)
     {
         $em = databaseORM::entityManager();
 
         return $em->getRepository(get_class())->findOneBy(['order' => $order], []);
     }
 
-    public static function getByMolliePaymentID(string $molliePaymentID): self
+    /** @return self|null */
+    public static function getByMolliePaymentID(string $molliePaymentID)
     {
         $em = databaseORM::entityManager();
 
         return $em->getRepository(get_class())->findOneBy(['pID' => $molliePaymentID], []);
     }
 
+    /** @return self[] */
     public static function getAll(): array
     {
         $em = databaseORM::entityManager();

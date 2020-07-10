@@ -128,19 +128,19 @@ class Method
     }
 
     /** @return float|null */
-    public function getMaximum(): ?float
+    public function getMaximum()
     {
         return $this->pMaximum;
     }
 
-    public function save(): void
+    public function save()
     {
         $em = databaseORM::entityManager();
         $em->persist($this);
         $em->flush();
     }
 
-    public function delete(): void
+    public function delete()
     {
         $em = databaseORM::entityManager();
         $em->remove($this);
@@ -174,21 +174,24 @@ class Method
         }
     }
 
-    public static function getByID($pID)
+    /** @return self|null */
+    public static function getByID(int $pID)
     {
         $em = databaseORM::entityManager();
 
         return $em->getRepository(get_class())->findOneBy(['pID' => $pID], []);
     }
 
-    public static function getByMollieID($pMollieID)
+    /** @return self|null */
+    public static function getByMollieID(string $pMollieID)
     {
         $em = databaseORM::entityManager();
 
         return $em->getRepository(get_class())->findOneBy(['pMollieID' => $pMollieID], []);
     }
 
-    public static function getAll()
+    /** @return self[] */
+    public static function getAll(): array
     {
         $em = databaseORM::entityManager();
 
