@@ -110,14 +110,14 @@ class MolliePaymentMethod extends StorePaymentMethod
         $section = Section::getDefaultSection();
         $languagePath = '';
 
-        if (null !== $section) {
-            $languagePath = $section->getCollectionHandle();
+        if ($sectionCollectionHandle = $section->getCollectionHandle()) {
+            $languagePath = '/' . $sectionCollectionHandle;
         }
 
         $order = StoreOrder::getByID($oID);
 
         if (empty($order)) {
-            $response = new RedirectResponse('/' . $languagePath . '/checkout');
+            $response = new RedirectResponse($languagePath . '/checkout');
 
             return $response->send();
         }
@@ -133,7 +133,7 @@ class MolliePaymentMethod extends StorePaymentMethod
         if ($payment->isCanceled()) {
             $order->updateStatus(Config::get('community_store.mollie.order_status_on_cancel'));
 
-            $response = new RedirectResponse('/' . $languagePath . '/cart');
+            $response = new RedirectResponse($languagePath . '/cart');
             $response->send();
         }
 
