@@ -120,7 +120,7 @@ class controller extends Package
         
         Route::register(
             '/checkout/ordercompletion/{oID}',
-            '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::customerValidation',
+            '\Concrete\Package\CommunityStoreMollie\Src\CommunityStore\Payment\Methods\Mollie\MolliePaymentMethod::customerValidation'
         );
     }
 
