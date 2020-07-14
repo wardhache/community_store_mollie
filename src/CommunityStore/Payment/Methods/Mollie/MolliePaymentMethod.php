@@ -117,7 +117,7 @@ class MolliePaymentMethod extends StorePaymentMethod
         $order = StoreOrder::getByID($oID);
 
         if (empty($order)) {
-            $response = new RedirectResponse($languagePath . '/checkout');
+            $response = new RedirectResponse('/' . $languagePath . '/checkout');
 
             return $response->send();
         }
@@ -141,7 +141,7 @@ class MolliePaymentMethod extends StorePaymentMethod
             $order->completeOrder($transaction->getMolliePaymentID());
         }
 
-        $response = new RedirectResponse($languagePath . '/checkout/complete');
+        $response = new RedirectResponse('/' . $languagePath . '/checkout/complete');
 
         return $response->send();
     }
